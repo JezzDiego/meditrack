@@ -10,28 +10,210 @@ const docTemplate = `{
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
         "contact": {
-            "name": "Meditrack Team"
+            "name": "Meditrack Team",
+            "url": "localhost:3333"
         },
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/medicine": {
+        "/v1/ncm": {
             "get": {
-                "description": "Retorna todos os itens.",
+                "description": "Retorna todos os NCMs cadastrados.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "v1"
+                    "Nomenclatura Comum do Mercosul"
                 ],
-                "operationId": "GetAllMedicines",
+                "operationId": "GetAllNCM",
                 "responses": {
                     "200": {
                         "description": "Requisição bem sucedida.",
                         "schema": {
-                            "$ref": "#/definitions/entities.FullMedicine"
+                            "$ref": "#/definitions/model.NCM"
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Cria um novo NCM.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Nomenclatura Comum do Mercosul"
+                ],
+                "operationId": "CreateNCM",
+                "parameters": [
+                    {
+                        "description": "NCM a ser criado",
+                        "name": "ncm",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.NCM"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Requisição bem sucedida.",
+                        "schema": {
+                            "$ref": "#/definitions/model.NCM"
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição inválida.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/ncm/{code}": {
+            "get": {
+                "description": "Retorna um NCM com base no código informado.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Nomenclatura Comum do Mercosul"
+                ],
+                "operationId": "GetNCMByCode",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Código do NCM",
+                        "name": "code",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Requisição bem sucedida.",
+                        "schema": {
+                            "$ref": "#/definitions/model.NCM"
+                        }
+                    },
+                    "404": {
+                        "description": "NCM não encontrado.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/product": {
+            "get": {
+                "description": "Retorna todos os itens cadastrados.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Produtos"
+                ],
+                "operationId": "GetAllProducts",
+                "responses": {
+                    "200": {
+                        "description": "Requisição bem sucedida.",
+                        "schema": {
+                            "$ref": "#/definitions/model.FullProduct"
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Cria um novo item.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Produtos"
+                ],
+                "operationId": "CreateProduct",
+                "parameters": [
+                    {
+                        "description": "Item a ser criado.",
+                        "name": "product",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.FullProduct"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Item criado com sucesso.",
+                        "schema": {
+                            "$ref": "#/definitions/model.FullProduct"
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição inválida.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/product/gtin/{gtin}": {
+            "get": {
+                "description": "Retorna um item com base no GTIN informado.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Produtos"
+                ],
+                "operationId": "GetProductByGtin",
+                "responses": {
+                    "200": {
+                        "description": "Requisição bem sucedida.",
+                        "schema": {
+                            "$ref": "#/definitions/model.FullProduct"
                         }
                     },
                     "404": {
@@ -49,53 +231,21 @@ const docTemplate = `{
                 }
             }
         },
-        "/medicine/gtin/{gtin}": {
+        "/v1/product/{id}": {
             "get": {
-                "description": "Retorna um item com base no gtin informado.",
+                "description": "Retorna um item com base no ID informado.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "v1"
+                    "Produtos"
                 ],
-                "operationId": "GetMedicineByGtin",
+                "operationId": "GetProductById",
                 "responses": {
                     "200": {
                         "description": "Requisição bem sucedida.",
                         "schema": {
-                            "$ref": "#/definitions/entities.FullMedicine"
-                        }
-                    },
-                    "404": {
-                        "description": "Item não encontrado.",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "500": {
-                        "description": "Erro interno.",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/medicine/{id}": {
-            "get": {
-                "description": "Retorna um item com base no id informado.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "v1"
-                ],
-                "operationId": "GetMedicineById",
-                "responses": {
-                    "200": {
-                        "description": "Requisição bem sucedida.",
-                        "schema": {
-                            "$ref": "#/definitions/entities.FullMedicine"
+                            "$ref": "#/definitions/model.FullProduct"
                         }
                     },
                     "404": {
@@ -115,7 +265,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "entities.FullMedicine": {
+        "model.FullProduct": {
             "type": "object",
             "properties": {
                 "avg_price": {
@@ -158,7 +308,7 @@ const docTemplate = `{
                     "type": "number"
                 },
                 "ncm": {
-                    "$ref": "#/definitions/entities.NCM"
+                    "$ref": "#/definitions/model.NCM"
                 },
                 "ncm_code": {
                     "type": "string"
@@ -183,7 +333,7 @@ const docTemplate = `{
                 }
             }
         },
-        "entities.NCM": {
+        "model.NCM": {
             "type": "object",
             "properties": {
                 "code": {
@@ -210,7 +360,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "Meditrack API",
-	Description:      "",
+	Description:      "API para consulta de itens por codigo de barras.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

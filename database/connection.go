@@ -9,7 +9,7 @@ import (
 	_ "github.com/tursodatabase/libsql-client-go/libsql"
 )
 
-func DBConn() *sql.DB {
+func DBConn() (*sql.DB, error) {
 	godotenv.Load()
 	url := os.Getenv("DATABASE_URL")
 
@@ -19,5 +19,5 @@ func DBConn() *sql.DB {
 		os.Exit(1)
 	}
 
-	return db
+	return db, nil
 }
