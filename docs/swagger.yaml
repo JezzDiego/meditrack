@@ -1,0 +1,127 @@
+definitions:
+  entities.FullMedicine:
+    properties:
+      avg_price:
+        type: number
+      barcode_image:
+        type: string
+      brand_name:
+        type: string
+      brand_picture:
+        type: string
+      created_at:
+        type: string
+      description:
+        type: string
+      gross_weight:
+        type: number
+      gtin:
+        type: integer
+      height:
+        type: number
+      id:
+        type: integer
+      length:
+        type: number
+      max_price:
+        type: number
+      min_price:
+        type: number
+      ncm:
+        $ref: '#/definitions/entities.NCM'
+      ncm_code:
+        type: string
+      net_weight:
+        type: number
+      origin:
+        type: string
+      price:
+        type: string
+      release_date:
+        type: string
+      updated_at:
+        type: string
+      width:
+        type: number
+    type: object
+  entities.NCM:
+    properties:
+      code:
+        type: string
+      description:
+        type: string
+      ex:
+        type: string
+      full_description:
+        type: string
+    type: object
+info:
+  contact:
+    name: Meditrack Team
+  title: Meditrack API
+  version: "1.0"
+paths:
+  /medicine:
+    get:
+      description: Retorna todos os itens.
+      operationId: GetAllMedicines
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Requisição bem sucedida.
+          schema:
+            $ref: '#/definitions/entities.FullMedicine'
+        "404":
+          description: Item não encontrado.
+          schema:
+            type: string
+        "500":
+          description: Erro interno.
+          schema:
+            type: string
+      tags:
+      - v1
+  /medicine/{id}:
+    get:
+      description: Retorna um item com base no id informado.
+      operationId: GetMedicineById
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Requisição bem sucedida.
+          schema:
+            $ref: '#/definitions/entities.FullMedicine'
+        "404":
+          description: Item não encontrado.
+          schema:
+            type: string
+        "500":
+          description: Erro interno.
+          schema:
+            type: string
+      tags:
+      - v1
+  /medicine/gtin/{gtin}:
+    get:
+      description: Retorna um item com base no gtin informado.
+      operationId: GetMedicineByGtin
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Requisição bem sucedida.
+          schema:
+            $ref: '#/definitions/entities.FullMedicine'
+        "404":
+          description: Item não encontrado.
+          schema:
+            type: string
+        "500":
+          description: Erro interno.
+          schema:
+            type: string
+      tags:
+      - v1
+swagger: "2.0"
