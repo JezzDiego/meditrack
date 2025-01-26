@@ -1,5 +1,5 @@
 definitions:
-  entities.FullMedicine:
+  model.FullProduct:
     properties:
       avg_price:
         type: number
@@ -28,7 +28,7 @@ definitions:
       min_price:
         type: number
       ncm:
-        $ref: '#/definitions/entities.NCM'
+        $ref: '#/definitions/model.NCM'
       ncm_code:
         type: string
       net_weight:
@@ -44,7 +44,7 @@ definitions:
       width:
         type: number
     type: object
-  entities.NCM:
+  model.NCM:
     properties:
       code:
         type: string
@@ -58,20 +58,141 @@ definitions:
 info:
   contact:
     name: Meditrack Team
+    url: localhost:3333
+  description: API para consulta de itens por codigo de barras.
   title: Meditrack API
   version: "1.0"
 paths:
-  /medicine:
+  /v1/ncm:
     get:
-      description: Retorna todos os itens.
-      operationId: GetAllMedicines
+      description: Retorna todos os NCMs cadastrados.
+      operationId: GetAllNCM
       produces:
       - application/json
       responses:
         "200":
           description: Requisição bem sucedida.
           schema:
-            $ref: '#/definitions/entities.FullMedicine'
+            $ref: '#/definitions/model.NCM'
+        "500":
+          description: Erro interno.
+          schema:
+            type: string
+      tags:
+      - Nomenclatura Comum do Mercosul
+    post:
+      consumes:
+      - application/json
+      description: Cria um novo NCM.
+      operationId: CreateNCM
+      parameters:
+      - description: NCM a ser criado
+        in: body
+        name: ncm
+        required: true
+        schema:
+          $ref: '#/definitions/model.NCM'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Requisição bem sucedida.
+          schema:
+            $ref: '#/definitions/model.NCM'
+        "400":
+          description: Requisição inválida.
+          schema:
+            type: string
+        "500":
+          description: Erro interno.
+          schema:
+            type: string
+      tags:
+      - Nomenclatura Comum do Mercosul
+  /v1/ncm/{code}:
+    get:
+      description: Retorna um NCM com base no código informado.
+      operationId: GetNCMByCode
+      parameters:
+      - description: Código do NCM
+        in: path
+        name: code
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Requisição bem sucedida.
+          schema:
+            $ref: '#/definitions/model.NCM'
+        "404":
+          description: NCM não encontrado.
+          schema:
+            type: string
+        "500":
+          description: Erro interno.
+          schema:
+            type: string
+      tags:
+      - Nomenclatura Comum do Mercosul
+  /v1/product:
+    get:
+      description: Retorna todos os itens cadastrados.
+      operationId: GetAllProducts
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Requisição bem sucedida.
+          schema:
+            $ref: '#/definitions/model.FullProduct'
+        "500":
+          description: Erro interno.
+          schema:
+            type: string
+      tags:
+      - Produtos
+    post:
+      consumes:
+      - application/json
+      description: Cria um novo item.
+      operationId: CreateProduct
+      parameters:
+      - description: Item a ser criado.
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/model.FullProduct'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Item criado com sucesso.
+          schema:
+            $ref: '#/definitions/model.FullProduct'
+        "400":
+          description: Requisição inválida.
+          schema:
+            type: string
+        "500":
+          description: Erro interno.
+          schema:
+            type: string
+      tags:
+      - Produtos
+  /v1/product/{id}:
+    get:
+      description: Retorna um item com base no ID informado.
+      operationId: GetProductById
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Requisição bem sucedida.
+          schema:
+            $ref: '#/definitions/model.FullProduct'
         "404":
           description: Item não encontrado.
           schema:
@@ -81,18 +202,18 @@ paths:
           schema:
             type: string
       tags:
-      - v1
-  /medicine/{id}:
+      - Produtos
+  /v1/product/gtin/{gtin}:
     get:
-      description: Retorna um item com base no id informado.
-      operationId: GetMedicineById
+      description: Retorna um item com base no GTIN informado.
+      operationId: GetProductByGtin
       produces:
       - application/json
       responses:
         "200":
           description: Requisição bem sucedida.
           schema:
-            $ref: '#/definitions/entities.FullMedicine'
+            $ref: '#/definitions/model.FullProduct'
         "404":
           description: Item não encontrado.
           schema:
@@ -102,26 +223,5 @@ paths:
           schema:
             type: string
       tags:
-      - v1
-  /medicine/gtin/{gtin}:
-    get:
-      description: Retorna um item com base no gtin informado.
-      operationId: GetMedicineByGtin
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Requisição bem sucedida.
-          schema:
-            $ref: '#/definitions/entities.FullMedicine'
-        "404":
-          description: Item não encontrado.
-          schema:
-            type: string
-        "500":
-          description: Erro interno.
-          schema:
-            type: string
-      tags:
-      - v1
+      - Produtos
 swagger: "2.0"
