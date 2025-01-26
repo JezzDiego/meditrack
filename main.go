@@ -9,6 +9,7 @@ import (
 	"strconv"
 	"time"
 
+	_ "github.com/JezzDiego/meditrack/docs"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -20,7 +21,7 @@ import (
 // @description	API para consulta de itens por codigo de barras.
 // @contact.name	Meditrack Team
 //
-//	@contact.url	localahost:3333
+//	@contact.url	localhost:3333
 func main() {
 	godotenv.Load()
 
