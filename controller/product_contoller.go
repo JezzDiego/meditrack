@@ -40,6 +40,7 @@ func (p *productController) GetAllProducts(c echo.Context) error {
 //	@Tags			Produtos
 //	@Description	Retorna um item com base no ID informado.
 //	@Produce		json
+//	@Param			id					path		int					true	"ID do item"
 //	@Success		200					{object}	model.FullProduct	"Requisição bem sucedida."
 //	@Failure		404					{string}	string				"Item não encontrado."
 //	@Failure		500					{string}	string				"Erro interno."
@@ -66,6 +67,7 @@ func (p *productController) GetProductById(c echo.Context) error {
 //	@Tags			Produtos
 //	@Description	Retorna um item com base no GTIN informado.
 //	@Produce		json
+//	@Param			gtin						path		string				true	"GTIN do item"
 //	@Success		200							{object}	model.FullProduct	"Requisição bem sucedida."
 //	@Failure		404							{string}	string				"Item não encontrado."
 //	@Failure		500							{string}	string				"Erro interno."
@@ -95,7 +97,7 @@ func (p *productController) GetProductByGtin(c echo.Context) error {
 //	@Success		201			{object}	model.FullProduct	"Item criado com sucesso."
 //	@Failure		400			{string}	string				"Requisição inválida."
 //	@Failure		500			{string}	string				"Erro interno."
-//	@Router			/v1/product	  									[post]
+//	@Router			/v1/product	  																											[post]
 func (p *productController) CreateProduct(c echo.Context) error {
 	var product model.FullProduct
 

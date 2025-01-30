@@ -209,6 +209,15 @@ const docTemplate = `{
                     "Produtos"
                 ],
                 "operationId": "GetProductByGtin",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "GTIN do item",
+                        "name": "gtin",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Requisição bem sucedida.",
@@ -241,6 +250,15 @@ const docTemplate = `{
                     "Produtos"
                 ],
                 "operationId": "GetProductById",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID do item",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Requisição bem sucedida.",

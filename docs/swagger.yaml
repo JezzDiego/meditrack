@@ -186,6 +186,12 @@ paths:
     get:
       description: Retorna um item com base no ID informado.
       operationId: GetProductById
+      parameters:
+      - description: ID do item
+        in: path
+        name: id
+        required: true
+        type: integer
       produces:
       - application/json
       responses:
@@ -207,6 +213,12 @@ paths:
     get:
       description: Retorna um item com base no GTIN informado.
       operationId: GetProductByGtin
+      parameters:
+      - description: GTIN do item
+        in: path
+        name: gtin
+        required: true
+        type: string
       produces:
       - application/json
       responses:
