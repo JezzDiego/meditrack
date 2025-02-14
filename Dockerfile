@@ -2,7 +2,7 @@
 # docker build -t meditrack-api .
 
 # Start from this golang base image
-FROM golang:1.23.4-alpine AS stage1
+FROM golang:1.23.4-alpine AS builder
 
 # Set the Current Working Directory inside the container
 WORKDIR /
@@ -25,7 +25,7 @@ FROM alpine:latest
 RUN apk --no-cache add ca-certificates
 
 # Copy the Pre-built binary file from the previous stage
-COPY --from=stage1 /main /
+COPY --from=builder /main /
 
 # ENV DATABASE_URL=$DATABASE_URL \
 #     OUTER_API_URL=$OUTER_API_URL \
