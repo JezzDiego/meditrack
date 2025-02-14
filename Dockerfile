@@ -27,5 +27,10 @@ RUN apk --no-cache add ca-certificates
 # Copy the Pre-built binary file from the previous stage
 COPY --from=stage1 /main /
 
+# ENV DATABASE_URL=$DATABASE_URL \
+#     OUTER_API_URL=$OUTER_API_URL \
+#     OUTER_API_TOKEN=$OUTER_API_TOKEN \
+#     OUTER_API_AUTH_HEADER=$OUTER_API_AUTH_HEADER
+
 # Command to run the executable
 ENTRYPOINT [ "/main" ]
